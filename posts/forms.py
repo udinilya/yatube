@@ -1,10 +1,12 @@
+from django.forms import ModelForm
 from django import forms
-from .models import Post, Group
+from .models import Post
 
 
-class PostForm(forms.Form):
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=False)
-    text = forms.CharField(widget=forms.Textarea)
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ['group', 'text']
 
     def clean_group(self):
         data = self.cleaned_data['group']
