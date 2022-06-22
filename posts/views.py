@@ -35,16 +35,19 @@ def morning(request):
 
 
 def new_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = Post(text=form.cleaned_data['text'], group=form.cleaned_data['group'])
-            post.author = request.user
-            post.save()
-            return redirect('index')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PostForm(request.POST)
+            if form.is_valid():
+                post = Post(text=form.cleaned_data['text'], group=form.cleaned_data['group'])
+                post.author = request.user
+                post.save()
+                return redirect('index')
+            return render(request, 'new_post.html', {'form': form})
+        form = PostForm()
         return render(request, 'new_post.html', {'form': form})
-    form = PostForm()
-    return render(request, 'new_post.html', {'form': form})
+    else:
+        return redirect('/auth/login')
 
 
 def profile(request, username):
@@ -58,22 +61,21 @@ def profile(request, username):
 
 def post_view(request, username, post_id):
     user = get_object_or_404(User, username=username)
-    post = Post.objects.filter(author=user).filter(id=post_id)
+    post = get_object_or_404(Post, author=user, id=post_id)
     return render(request, 'post.html', {'post': post})
 
 
 def post_edit(request, username, post_id):
-    user = get_object_or_404(User, username=username)
-    post = get_object_or_404(Post, author=user, id=post_id)
+    post = get_object_or_404(Post, id=post_id)
 
     if request.user != post.author:
-        return redirect('profile', username=request.user)
+        return redirect('post', post.author, post_id)
 
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post.save()
-            return redirect('post', username, post_id)
+        return redirect('post', username, post_id)
     else:
         form = PostForm(instance=post)
 
