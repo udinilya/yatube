@@ -1,5 +1,7 @@
 from django.test import TestCase, Client
-from posts.models import User, Post
+from django.urls import reverse
+
+from posts.models import User, Post, Group
 
 
 class ProfileTest(TestCase):
@@ -30,5 +32,7 @@ class ProfileTest(TestCase):
         self.assertIn(str(self.post), response.content.decode())
 
     def test_post_edit(self):
-        response = self.client.post('/Paul/1/edit/', data={'text': 'Help!!', 'author': self.user}, follow=True)
-        self.assertEqual(response.status_code, 200)
+        status = self.client.post('/Paul/1/edit/', kwargs={'pk': self.post.pk, 'author': self.user},
+                                  data={'text': 'Help!!', 'author': self.user})
+        new_post = Post.objects.filter(pk=self.post.pk)
+        self.assertIn('Help!!', new_post)

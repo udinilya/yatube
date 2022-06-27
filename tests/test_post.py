@@ -92,7 +92,8 @@ class TestPostEditView:
             response = user_client.get(f'/{post_with_group.author.username}/{post_with_group.id}/edit')
         except Exception as e:
             assert False, f'''Страница `/<username>/<post_id>/edit/` работает неправильно. Ошибка: `{e}`'''
-        url = f'/{post_with_group.author.username}/{post_with_group.id}/edit/' if response.status_code in (301, 302) else f'/{post_with_group.author.username}/{post_with_group.id}/edit'
+        url = f'/{post_with_group.author.username}/{post_with_group.id}/edit/' if response.status_code in (301, 302)\
+            else f'/{post_with_group.author.username}/{post_with_group.id}/edit'
 
         response = user_client.post(url, data={'text': text, 'group': post_with_group.group_id})
 
