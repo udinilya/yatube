@@ -38,15 +38,3 @@ class ProfileTest(TestCase):
         new_post = Post.objects.get(pk=self.post.pk)
         self.assertIn('Help!!', new_post)
 
-
-
-
-
-
-
-
-
-
-
-
-

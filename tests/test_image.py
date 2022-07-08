@@ -8,9 +8,9 @@ class ImageTest(TestCase):
         self.user = User.objects.create_user(username="Paul", email="paul@beatles.ru", password="12345")
         self.group = Group.objects.create(title='test-group', slug='test-link', description='Тестовое описание группы')
         self.post = Post.objects.create(text='im', author=self.user)
+        self.client.login(username="Paul", password="12345")
 
     def image_in_post(self):
-        self.client.login(username="Paul", password="12345")
         with open('media/posts/0679412251_6_1_1.jpg', 'rb') as img:
             post = self.client.post('/Paul/1/edit/', {'author': self.user, 'text': 'post with image',
                                                       'image': img},
@@ -29,7 +29,6 @@ class ImageTest(TestCase):
         self.assertTrue('<img' in response.content.decode())
 
     def image_in_group_post(self):
-        self.client.login(username='Paul', password='12345')
         with open('media/posts/0679412251_6_1_1.jpg', 'rb') as img:
             post = self.client.post('/Paul/1/edit/', {'author': self.user, 'text': 'post with image',
                                                       'image': img, 'group': self.group},
