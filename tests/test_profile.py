@@ -27,12 +27,14 @@ class ProfileTest(TestCase):
         response = self.client.get('')
         self.assertIn(str(self.post), response.content.decode())
         response = self.client.get('/Paul')
-        self.assertIn(str(self.post), response.content.decode())
         response = self.client.get('/Paul/1/')
+        self.assertIn(str(self.post), response.content.decode())
         self.assertIn(str(self.post), response.content.decode())
 
     def test_post_edit(self):
+        self.client.login(username="Paul", password="12345")
         status = self.client.post('/Paul/1/edit/', kwargs={'pk': self.post.pk, 'author': self.user},
                                   data={'text': 'Help!!', 'author': self.user})
-        new_post = Post.objects.filter(pk=self.post.pk)
+        new_post = Post.objects.get(pk=self.post.pk)
         self.assertIn('Help!!', new_post)
+
