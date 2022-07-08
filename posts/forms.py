@@ -6,7 +6,7 @@ from .models import Post
 class PostForm(ModelForm):
     class Meta:
         model = Post
-        fields = ['group', 'text']
+        fields = ['group', 'text', 'image']
 
     def clean_group(self):
         data = self.cleaned_data['group']

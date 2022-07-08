@@ -72,7 +72,7 @@ def post_edit(request, username, post_id):
         return redirect('post', post.author, post_id)
 
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST or None, files=request.FILES or None, instance=post)
         if form.is_valid():
             post.save()
         return redirect('post', username, post_id)
