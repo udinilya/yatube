@@ -1,8 +1,8 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 import datetime
-from .models import Post, Group
-from .forms import PostForm
+from .models import Post, Group, Comment
+from .forms import PostForm, CommentForm
 from users.forms import User
 
 
@@ -62,7 +62,9 @@ def profile(request, username):
 def post_view(request, username, post_id):
     user = get_object_or_404(User, username=username)
     post = get_object_or_404(Post, author=user, id=post_id)
-    return render(request, 'post.html', {'post': post})
+    comments = post.comments.order_by('-created').all()
+    form = CommentForm()
+    return render(request, 'post.html', {'post': post, 'comments': comments, 'form': form})
 
 
 def post_edit(request, username, post_id):
@@ -80,6 +82,25 @@ def post_edit(request, username, post_id):
         form = PostForm(instance=post)
 
     return render(request, 'new_post.html', {'form': form, 'post': post})
+
+
+def add_comment(request, username, post_id):
+    user = get_object_or_404(User, username=username)
+    post = get_object_or_404(Post, author=user, id=post_id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = Comment(text=form.cleaned_data['text'])
+            new_comment.author = request.user
+            new_comment.post = post
+            new_comment.save()
+            return redirect('post', username, post_id)
+        else:
+            form = CommentForm()
+        return render(request, 'comments.html', {'form': form})
+    form = CommentForm()
+    return render(request, 'comments.html', {'form': form, 'user': user, 'post': post})
 
 
 def page_not_found(request, exception):

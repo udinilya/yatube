@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Post
+from .models import Post, Comment
 
 
 class PostForm(ModelForm):
@@ -14,3 +14,9 @@ class PostForm(ModelForm):
         if not group.exists():
             raise forms.ValidationError('Такой группы не существует')
         return data
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
