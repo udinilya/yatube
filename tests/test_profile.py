@@ -1,7 +1,6 @@
 from django.test import TestCase, Client
-from django.urls import reverse
 
-from posts.models import User, Post, Group
+from posts.models import User, Post
 
 
 class ProfileTest(TestCase):
@@ -15,7 +14,7 @@ class ProfileTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_new_post(self):
-        response = self.client.get('/new/')
+        response = self.client.get('/new/', follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_not_get_new_post(self):
@@ -33,8 +32,6 @@ class ProfileTest(TestCase):
 
     def test_post_edit(self):
         self.client.login(username="Paul", password="12345")
-        status = self.client.post('/Paul/1/edit/', kwargs={'pk': self.post.pk, 'author': self.user},
-                                  data={'text': 'Help!!', 'author': self.user})
-        new_post = Post.objects.get(pk=self.post.pk)
-        self.assertIn('Help!!', new_post)
-
+        post = self.client.post('/Paul/1/edit/', {'text': 'Help!!', 'author': self.user}, follow=True)
+        response = self.client.get('/Paul/1/')
+        self.assertTrue('Help!!' in response.content.decode())

@@ -1,5 +1,6 @@
 {% load user_filters %}
 
+<!-- Вывод формы для комментариев -->
 {% if user.is_authenticated %}
 <div class="card my-4">
     <form
@@ -19,7 +20,7 @@
 </div>
 {% endif %}
 
-<!-- Комментарии -->
+<!-- Вывод списка комментариев -->
 {% for item in items %}
 <div class="media mb-4">
 <div class="media-body">
