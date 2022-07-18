@@ -62,9 +62,10 @@ def profile(request, username):
 def post_view(request, username, post_id):
     user = get_object_or_404(User, username=username)
     post = get_object_or_404(Post, author=user, id=post_id)
+    post_list = Post.objects.filter(author=user).order_by('-pub_date').all()
     comments = post.comments.order_by('-created').all()
     form = CommentForm()
-    return render(request, 'post.html', {'post': post, 'comments': comments, 'form': form})
+    return render(request, 'post.html', {'post': post, 'comments': comments, 'form': form, 'post_list': post_list})
 
 
 def post_edit(request, username, post_id):

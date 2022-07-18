@@ -15,7 +15,7 @@ class ProfileTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_new_post(self):
-        response = self.client.get('/new/')
+        response = self.client.get('/new/', follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_not_get_new_post(self):
@@ -35,6 +35,5 @@ class ProfileTest(TestCase):
         self.client.login(username="Paul", password="12345")
         status = self.client.post('/Paul/1/edit/', kwargs={'pk': self.post.pk, 'author': self.user},
                                   data={'text': 'Help!!', 'author': self.user})
-        new_post = Post.objects.get(pk=self.post.pk)
-        self.assertIn('Help!!', new_post)
-
+        new_post = Post.objects.get(text='Help!!')
+        self.assertTrue(new_post)
