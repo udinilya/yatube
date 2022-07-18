@@ -1,7 +1,6 @@
 from django.test import TestCase, Client
-from django.urls import reverse
 
-from posts.models import User, Post, Group
+from posts.models import User, Post
 
 
 class ProfileTest(TestCase):
@@ -33,7 +32,6 @@ class ProfileTest(TestCase):
 
     def test_post_edit(self):
         self.client.login(username="Paul", password="12345")
-        status = self.client.post('/Paul/1/edit/', kwargs={'pk': self.post.pk, 'author': self.user},
-                                  data={'text': 'Help!!', 'author': self.user})
-        new_post = Post.objects.get(text='Help!!')
-        self.assertTrue(new_post)
+        post = self.client.post('/Paul/1/edit/', {'text': 'Help!!', 'author': self.user}, follow=True)
+        response = self.client.get('/Paul/1/')
+        self.assertTrue('Help!!' in response.content.decode())
