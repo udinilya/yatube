@@ -31,8 +31,12 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     '[::1]',
     'testserver',
+    '*',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://043b-176-59-57-203.eu.ngrok.io',
+]
 
 # Application definition
 
@@ -67,6 +71,7 @@ ROOT_URLCONF = 'yatube.urls'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
