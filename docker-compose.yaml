@@ -1,0 +1,27 @@
+version: '3.8'
+volumes:
+  postgres_data:
+services:
+  db:
+    image: postgres:12.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file: .env
+  web:
+    image: udinilya/yatube_web:v1.0
+    restart: always
+    command: gunicorn yatube.wsgi:application --bind 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - migration
+      - db
+    env_file:
+      - ./.env
+  migration:
+    image: udinilya/yatube_web:v1.0
+    command: python3 manage.py migrate --noinput
+    depends_on:
+      - db
+    env_file:
+      - ./.env
