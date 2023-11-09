@@ -6,7 +6,7 @@
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Следуя этим инструкциям, вы получите копию проекта, которая будет запущена на вашем локальном компьютере. Примечания о том, как развернуть проект в действующей системе, приведены в разделе развертывание.
 
 ### Prerequisites
 
