@@ -48,4 +48,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             sudo docker pull udinilya/yatube_web:v3
-            sudo docker-compose.yaml
+            sudo docker-compose up
