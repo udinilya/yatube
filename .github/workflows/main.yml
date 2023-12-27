@@ -46,5 +46,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
+          source: docker-compose.yaml
+          target: udinilya/yatube_web:v3
           script:
-            sudo docker-compose up udinilya/yatube_web:v3
+            sudo docker-compose up
