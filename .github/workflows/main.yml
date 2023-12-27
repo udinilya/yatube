@@ -46,6 +46,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          script: |
-            sudo docker pull udinilya/yatube_web:v3
-            sudo docker-compose up
+          script:
+            sudo docker-compose up udinilya/yatube_web:v3
