@@ -40,6 +40,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+      - name: Chek out the repo
+        uses: actions/checkout@v2
       - name: copy docker-compose.yaml file to remote
         uses: appleboy/scp-action@master
         with:
