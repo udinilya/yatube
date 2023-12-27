@@ -40,12 +40,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
-#      - name: executing remote ssh commands to deploy
-      - uses: actions/checkout@v2
-      - uses: alex-ac/github-action-ssh-docker-compose@master
-        name: Docker - Compose Remote Deployment
+      - name: executing remote ssh commands to deploy
+        uses: appleboy/ssh-action@master
         with:
-          ssh_host: ${{ secrets.HOST }}
-          ssh_user: ${{ secrets.USER }}
-          ssh_private_key: ${{ secrets.SSH_KEY }}
-          docker_compose_prefix: udinilya/yatube_web:v3
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "docker-compose.yaml"
+          target: "udinilya/yatube_web:v3"
+          script:
+            sudo docker-compose up
