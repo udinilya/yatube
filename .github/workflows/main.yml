@@ -49,8 +49,8 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/yatube_web:v3
-            id=$(docker create ${{ secrets.DOCKER_USERNAME }}/yatube_web:v3)
+            sudo docker pull udinilya/yatube_web:v3
+            id=$(docker create udinilya/yatube_web:v3)
             sudo docker cp $id:code/docker-compose.yaml docker-compose.yaml
             sudo mkdir nginx
             sudo docker cp $id:code/nginx/Dockerfile nginx/Dockerfile
