@@ -42,11 +42,20 @@ jobs:
     steps:
       - name: Chek out the repo
         uses: actions/checkout@v2
-      - name: copy docker-compose.yaml file to remote
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          source: "./docker-compose.yaml"
-          target: "./code/"
+      - name: executing remote ssh commands to deploy
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USER }}
+            key: ${{ secrets.SSH_KEY }}
+            script: |
+              sudo docker pull ${{ secrets.DOCKER_USERNAME }}/yatube_web:v3
+              id=$(docker create ${{ secrets.DOCKER_USERNAME }}/yatube_web:v3)
+              sudo docker cp $id:code/docker-compose.yaml docker-compose.yaml
+              sudo mkdir nginx
+              sudo docker cp $id:code/nginx/Dockerfile nginx/Dockerfile
+              sudo docker cp $id:code/nginx/nginx.conf nginx/nginx.conf
+              sudo docker rm -v $id
+              docker kill $(docker ps -q)
+              docker rm $(docker ps -a -q)
+              sudo docker-compose up -d --force-recreate
