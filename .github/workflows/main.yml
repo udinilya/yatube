@@ -49,8 +49,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: "docker-compose.yaml, .env"
-          target: "."
+          source: "docker-compose.yaml"
+          target: "./code/"
 
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
