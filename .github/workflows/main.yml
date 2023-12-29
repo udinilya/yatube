@@ -58,7 +58,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          target: "./code/"
           script: |
             cd code
+            sudo docker-compose down -v
             sudo docker-compose up
