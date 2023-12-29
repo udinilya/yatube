@@ -36,7 +36,7 @@ jobs:
           push: true
           tags: udinilya/yatube_web:v3
 
-  deploy:
+  deploys:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
