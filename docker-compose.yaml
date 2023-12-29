@@ -17,7 +17,6 @@ services:
     volumes:
       - staticfiles:/code/static
     depends_on:
-      - migration
       - db
     env_file:
       - ./.env
@@ -25,7 +24,7 @@ services:
     image: udinilya/yatube_web:v3
     command: python3 manage.py migrate --noinput
     depends_on:
-      - db
+      - web
     env_file:
       - ./.env
   nginx:
