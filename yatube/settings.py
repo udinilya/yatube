@@ -39,6 +39,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'https://043b-176-59-57-203.eu.ngrok.io',
+    'https://www.yatubepractic.ru',
     'https://yatubepractic.ru',
     'https://158.160.69.16',
 ]
