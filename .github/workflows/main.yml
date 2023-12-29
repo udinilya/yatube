@@ -60,4 +60,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           target: "./code/"
           script: |
+            cd code
             sudo docker-compose up
