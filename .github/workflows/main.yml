@@ -52,13 +52,13 @@ jobs:
           source: "docker-compose.yaml, .env"
           target: "./code/"
 
-      - name: executing remote ssh commands to deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd code
-            sudo docker-compose down -v
-            sudo docker-compose up
+#      - name: executing remote ssh commands to deploy
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.USER }}
+#          key: ${{ secrets.SSH_KEY }}
+#          script: |
+#            cd code
+#            sudo docker-compose down -v
+#            sudo docker-compose up
