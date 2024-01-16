@@ -36,3 +36,4 @@ services:
       - 8888:80
     depends_on:
       - migration
+# 1
