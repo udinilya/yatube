@@ -35,4 +35,4 @@ services:
     ports:
       - 8888:80
     depends_on:
-      - web
+      - migration
